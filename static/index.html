@@ -8,7 +8,6 @@ You wouldn't actually want to expose your access token secret like this in a rea
 TODO:
 - powered by yelp
 - address info
-- deploy
 -->
 
 <html>
@@ -22,35 +21,45 @@ TODO:
   <script type="text/javascript" src="http://lesscss.googlecode.com/files/less-1.3.0.min.js"></script>
 
   <!-- template -->
-  <!--TODO: rename id -->
   <script type="text/html" id="tpl_business">
     <div class="business">
       <div class="summary">
         <img src="{{image_url}}"><img src="{{map_url}}">
         <div class="overlay"></div>
         <div class="description">
-          <h3 class="title"><a href="{{mobile_url}}">{{name}}</a></h3>
+          <h3 class="title">{{name}}</h3>
           <h4>{{distance}} mi</h4>
         </div>
       </div>
-      <div class="extended-info" style="display:none;">
-        <div><img src="{{rating_img_url}}"> - {{review_count}} review(s)</div>
-        <div>Categories: {{pretty_categories}}</div>
-        <div><a href="{{directions_url}}">Directions</a></div>
+      <div class="extended-info">
+        <ul>
+          <li><img class="rating-image" src="{{rating_img_url}}"> ({{review_count}} reviews)</li>
+          <li>Categories: {{pretty_categories}}</li>
+          <li><a href="{{directions_url}}">Directions</a></li>
+          <li><a href="{{mobile_url}}">View on Yelp</a></li>
+        </ul>
       </div>
     </div>
   </script>
 </head>
 <body>
 <div class="content">
-  <h1>Where's The Street Food At?</h1>
-  <h2>Helping you find street food nearby</h2>
+  <header>
+    <h1>Where's The Street Food At?</h1>
+    <h2>Helping you find street food nearby</h2>
+  </header>
 
   <div class="businesses">
     <img src="ajax-loader.gif" class="spinner">
   </div>
 
+  <footer>
+    <p>Created by <a href="http://lowellkirsh.com">Lowell Kirsh</a></p>
+    <img src="http://media1.ak.yelpcdn.com/static/201012163498344258/img/developers/Powered_By_Yelp_Black.png">
+  </footer>
+
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <!--<script type="text/javascript" src="jQuery.fastClick.js"></script>-->
   <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
   <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
   <script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore.js"></script>

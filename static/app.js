@@ -131,3 +131,7 @@ navigator.geolocation.getCurrentPosition(function (location) {
   // TODO: show something to the user
   console.error('could not get current location');
 });
+
+//$('body').delegate('.business', 'click', function() {
+//  $(this).find('.extended-info').toggle();
+//});
