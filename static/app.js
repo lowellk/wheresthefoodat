@@ -3,6 +3,10 @@ var SORT_TYPE = {
   distance: 1
 };
 
+var mapWidth = 200;
+var mapHeight = 100;
+var mapZoom = 14;
+
 function toRad(angle) {
   return angle * Math.PI / 180;
 }
@@ -18,8 +22,13 @@ function urlForDirections(start, end) {
 function urlForMap(latitude, longitude) {
   var latLng = [latitude, longitude].join(',');
   var template = 'http://maps.googleapis.com/maps/api/staticmap?center={latLng}' +
-    '&zoom=14&size=300x100&sensor=false&markers=color:red%7C{latLng}';
-  return template.replace(/\{latLng\}/g, latLng);
+    '&zoom={zoom}&size={width}x{height}&sensor=false&markers=color:red%7C{latLng}';
+  // yes, I know it's inefficient ;-)
+  return template.
+    replace(/{latLng}/g, latLng).
+    replace(/{width}/g, mapWidth).
+    replace(/{height}/g, mapHeight).
+    replace(/{zoom}/g, mapZoom);
 }
 
 /**
@@ -32,7 +41,7 @@ function getDistance(here, there) {
   var R = 6371; // km
   var dLat = toRad(there.latitude - here.latitude);
   var dLon = toRad(there.longitude - here.longitude);
-  var lat1 = toRad(here.latitude); //TODO: broken!
+  var lat1 = toRad(here.latitude);
   var lat2 = toRad(there.latitude);
 
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -91,6 +100,8 @@ function hitApi(latitude, longitude, accuracy) {
       console.log('data', data);
 
       var start = {latitude: latitude, longitude: longitude};
+
+      $(".businesses").html('');
 
       _.each(data.businesses, function (business) {
         var prettyCategories = _.map(business.categories,

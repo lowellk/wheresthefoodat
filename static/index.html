@@ -17,47 +17,27 @@ TODO:
 
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 
-  <style type="text/css">
-    html, body {
-      font-family: sans-serif;
-      padding: 0;
-      margin: 0;
-      background-color: gray;
-    }
+  <!--<link rel="stylesheet" href="reset.css"/>-->
+  <link rel="stylesheet/less" type="text/css" href="app.less"/>
+  <script type="text/javascript" src="http://lesscss.googlecode.com/files/less-1.3.0.min.js"></script>
 
-    .content {
-      width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: white;
-      padding: 10px;
-      height: 100%;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    .business {
-      border-top: 1px solid black;
-    }
-  </style>
-
+  <!-- template -->
+  <!--TODO: rename id -->
   <script type="text/html" id="tpl_business">
     <div class="business">
-      <h3><a href="{{mobile_url}}">{{name}}</a></h3>
-
-      <div><img src="{{image_url}}"></div>
-      <div><img src="{{rating_img_url}}"> - {{review_count}} review(s)</div>
-      <div>distance: {{distance}} mi</div>
-      <div>Categories: {{pretty_categories}}</div>
-      <div><a href="{{directions_url}}">Directions</a></div>
-      <div><img src="{{map_url}}"></div>
+      <div class="summary">
+        <img src="{{image_url}}"><img src="{{map_url}}">
+        <div class="overlay"></div>
+        <div class="description">
+          <h3 class="title"><a href="{{mobile_url}}">{{name}}</a></h3>
+          <h4>{{distance}} mi</h4>
+        </div>
+      </div>
+      <div class="extended-info" style="display:none;">
+        <div><img src="{{rating_img_url}}"> - {{review_count}} review(s)</div>
+        <div>Categories: {{pretty_categories}}</div>
+        <div><a href="{{directions_url}}">Directions</a></div>
+      </div>
     </div>
   </script>
 </head>
@@ -66,7 +46,9 @@ TODO:
   <h1>Where's The Street Food At?</h1>
   <h2>Helping you find street food nearby</h2>
 
-  <div class="businesses"></div>
+  <div class="businesses">
+    <img src="ajax-loader.gif" class="spinner">
+  </div>
 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>

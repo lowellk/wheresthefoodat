@@ -1,0 +1,60 @@
+html, body {
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: gray;
+}
+
+.content {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    padding: 10px;
+    height: 100%;
+}
+
+img {
+    display: inline-block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.spinner {
+    display: block;
+    margin: 0 auto;
+}
+
+.business {
+    position: relative;
+    margin-bottom: 2px;
+
+    .summary {
+      height: 100px;
+    }
+
+    .description {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+
+      * {
+        color: white;
+      }
+    }
+
+    .overlay {
+        width: 300px;
+        height: 100px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
