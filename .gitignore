@@ -2,3 +2,4 @@ venv
 *.pyc
 Wheresthefoodat.iml
 .idea/
+.DS_Store
