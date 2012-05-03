@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+This example is a proof of concept, for how to use the Yelp v2 API with javascript.
+You wouldn't actually want to expose your access token secret like this in a real application.
+-->
+
+<!--
+TODO:
+- powered by yelp
+- address info
+- deploy
+-->
+
+<html>
+<head>
+  <title>Where's The Street Food At?</title>
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+
+  <style type="text/css">
+    html, body {
+      font-family: sans-serif;
+      padding: 0;
+      margin: 0;
+      background-color: gray;
+    }
+
+    .content {
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      padding: 10px;
+      height: 100%;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .business {
+      border-top: 1px solid black;
+    }
+  </style>
+
+  <script type="text/html" id="tpl_business">
+    <div class="business">
+      <h3><a href="{{mobile_url}}">{{name}}</a></h3>
+
+      <div><img src="{{image_url}}"></div>
+      <div><img src="{{rating_img_url}}"> - {{review_count}} review(s)</div>
+      <div>distance: {{distance}} mi</div>
+      <div>Categories: {{pretty_categories}}</div>
+      <div><a href="{{directions_url}}">Directions</a></div>
+      <div><img src="{{map_url}}"></div>
+    </div>
+  </script>
+</head>
+<body>
+<div class="content">
+  <h1>Where's The Street Food At?</h1>
+  <h2>Helping you find street food nearby</h2>
+
+  <div class="businesses"></div>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+  <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+  <script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore.js"></script>
+  <script type="text/javascript" src="https://github.com/andyet/ICanHaz.js/raw/master/ICanHaz.js"></script>
+  <script src="app.js"></script>
+</div>
+</body>
+</html>
+
+
+
