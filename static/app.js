@@ -63,6 +63,7 @@ var auth = {
   }
 };
 
+// TODO: rename
 function hitApi(latitude, longitude, accuracy) {
   var message = {
     'action': 'http://api.yelp.com/v2/search',
@@ -124,10 +125,9 @@ function hitApi(latitude, longitude, accuracy) {
   });
 }
 
-// TODO: spinner
 navigator.geolocation.getCurrentPosition(function (location) {
-  console.info(location.coords);
   hitApi(location.coords.latitude, location.coords.longitude, location.coords.accuracy);
 }, function () {
+  // TODO: show something to the user
   console.error('could not get current location');
 });
