@@ -1,16 +1,17 @@
+@device_width: 320px;
+
 html, body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
-  background-color: gray;
+  background-color: #e8e8e8;
 }
 
 .content {
-  width: 300px;
+  width: @device_width;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  padding: 10px;
   height: 100%;
 }
 
@@ -31,13 +32,13 @@ h2, h3, h4 {
 }
 
 header {
-  margin-bottom: 10px;
+  padding: 10px;
 }
 
 
 .spinner {
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 10px;
 }
 
 .business {
@@ -59,7 +60,7 @@ header {
   }
 
   .overlay {
-    width: 300px;
+    width: @device_width;
     height: 100px;
     position: absolute;
     top: 0;
@@ -69,6 +70,7 @@ header {
 
   .extended-info {
     margin-top: 5px;
+    padding: 0 10px;
     ul {
       list-style: none;
       margin: 0;
@@ -83,5 +85,13 @@ header {
 
 footer {
   border-top: 1px solid black;
-  padding-top: 10px;
+  padding: 10px;
+  p {
+    text-align: center;
+  }
+  img {
+    margin-top: 5px;
+    display: block;
+    margin: 5px auto 0;
+  }
 }

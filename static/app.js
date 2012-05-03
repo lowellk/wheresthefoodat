@@ -3,14 +3,20 @@ var SORT_TYPE = {
   distance: 1
 };
 
-var mapWidth = 200;
-var mapHeight = 100;
-var mapZoom = 14;
+var MAP_WIDTH = 220;
+var MAP_HEIGHT = 100;
+var MAP_ZOOM = 14;
 
+/**
+ * Convert from degrees to radians
+ */
 function toRad(angle) {
   return angle * Math.PI / 180;
 }
 
+/**
+ * Get the url for google directions from start to end
+ */
 function urlForDirections(start, end) {
   var template = "http://maps.google.com/?saddr={start_lat},{start_lng}&daddr={end_lat},{end_lng}";
   return template.replace('{start_lat}', start.latitude)
@@ -19,6 +25,9 @@ function urlForDirections(start, end) {
     .replace('{end_lng}', end.longitude)
 }
 
+/**
+ * Get url for static map for lat/long
+ */
 function urlForMap(latitude, longitude) {
   var latLng = [latitude, longitude].join(',');
   var template = 'http://maps.googleapis.com/maps/api/staticmap?center={latLng}' +
@@ -26,9 +35,9 @@ function urlForMap(latitude, longitude) {
   // yes, I know it's inefficient ;-)
   return template.
     replace(/{latLng}/g, latLng).
-    replace(/{width}/g, mapWidth).
-    replace(/{height}/g, mapHeight).
-    replace(/{zoom}/g, mapZoom);
+    replace(/{width}/g, MAP_WIDTH).
+    replace(/{height}/g, MAP_HEIGHT).
+    replace(/{zoom}/g, MAP_ZOOM);
 }
 
 /**
@@ -63,8 +72,10 @@ var auth = {
   }
 };
 
-// TODO: rename
-function hitApi(latitude, longitude, accuracy) {
+/**
+ * Get nearby places from Yelp and update the DOM
+ */
+function getAndRenderYelpPlaces(latitude, longitude, accuracy) {
   var message = {
     'action': 'http://api.yelp.com/v2/search',
     'method': 'GET',
@@ -125,13 +136,23 @@ function hitApi(latitude, longitude, accuracy) {
   });
 }
 
-navigator.geolocation.getCurrentPosition(function (location) {
-  hitApi(location.coords.latitude, location.coords.longitude, location.coords.accuracy);
-}, function () {
-  // TODO: show something to the user
-  console.error('could not get current location');
-});
+/**
+ * Start the application
+ */
+function init() {
+  navigator.geolocation.getCurrentPosition(function (location) {
+    getAndRenderYelpPlaces(location.coords.latitude, location.coords.longitude, location.coords.accuracy);
+  }, function () {
+    // TODO: show something to the user
+    console.error('could not get current location');
+  });
+}
 
-//$('body').delegate('.business', 'click', function() {
-//  $(this).find('.extended-info').toggle();
-//});
+// go!
+$LAB
+  .script('jquery.min.js')
+  .script('oauth.js')
+  .script('sha1.js')
+  .script('ICanHaz.js')
+  .script('underscore.js')
+  .wait(init);
