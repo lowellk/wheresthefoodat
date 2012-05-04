@@ -140,11 +140,17 @@ function getAndRenderYelpPlaces(latitude, longitude, accuracy) {
  * Start the application
  */
 function init() {
+  if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
+    // TODO: ugly, show a nicer error page with instructions
+    alert('Error: this app can only be used in a browser that supports geolocation.');
+    return;
+  }
+
   navigator.geolocation.getCurrentPosition(function (location) {
     getAndRenderYelpPlaces(location.coords.latitude, location.coords.longitude, location.coords.accuracy);
   }, function () {
-    // TODO: show something to the user
-    console.error('could not get current location');
+    // TODO: show a nicer error message/page
+    alert('could not get current location');
   });
 }
 
