@@ -4,3 +4,5 @@
   - this app is not production ready
 - intro page
 - backbone?
+- favicon
+- mobile web app capable
