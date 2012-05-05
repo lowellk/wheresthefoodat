@@ -1,0 +1,6 @@
+- humans.txt
+- about page
+  - info about limitations
+  - this app is not production ready
+- intro page
+- backbone?
