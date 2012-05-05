@@ -109,7 +109,7 @@ var app = (function () {
       success: function (data, textStats, XMLHttpRequest) {
         var start = {latitude: latitude, longitude: longitude};
 
-        $(".businesses").html('');
+        $(".spinner, .spacer").remove();
 
         _.each(data.businesses, function (business) {
           var prettyCategories = _.map(business.categories,
@@ -150,7 +150,6 @@ var app = (function () {
 
 })();
 
-
 if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
   // TODO: ugly, show a nicer error page with instructions
   alert('Error: this app can only be used in a browser that supports geolocation.');
@@ -160,6 +159,9 @@ else if (!document.addEventListener) {
   alert('You are using an old version of Internet Explorer. Please use a modern browser.');
 }
 else {
+  // hide the url bar
+  window.scrollTo(0, 1);
+
   // load scripts in parallel then start the app
   $LAB
     .script('jquery.min.js')
