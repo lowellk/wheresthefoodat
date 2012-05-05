@@ -103,12 +103,12 @@ function getAndRenderYelpPlaces(latitude, longitude, accuracy) {
   parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 
   $.ajax({
-    'url': message.action,
-    'data': parameterMap,
-    'cache': true,
-    'dataType': 'jsonp',
-    'jsonpCallback': 'cb',
-    'success': function (data, textStats, XMLHttpRequest) {
+    url: message.action,
+    data: parameterMap,
+    cache: true,
+    dataType: 'jsonp',
+    jsonpCallback: 'cb',
+    success: function (data, textStats, XMLHttpRequest) {
       console.log('data', data);
 
       var start = {latitude: latitude, longitude: longitude};
@@ -143,6 +143,12 @@ function init() {
   if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
     // TODO: ugly, show a nicer error page with instructions
     alert('Error: this app can only be used in a browser that supports geolocation.');
+    return;
+  }
+
+  if (!document.addEventListener) {
+    // TODO: not an inherent problem. Should path ICanHaz to work with IE < 9
+    alert('You are using an old version of Internet Explorer. Please use a modern browser.');
     return;
   }
 
