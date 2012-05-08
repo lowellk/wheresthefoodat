@@ -1,1 +1,1 @@
-web: python app.py
+web: env DEBUG=True python app.py
