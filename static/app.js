@@ -100,12 +100,15 @@ var App = function () {
     parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 
     // TODO: using jsonp so can't attach an error handler. Proxy instead of using jsonp.
-    $.ajax({
+    $.jsonp({
       url: message.action,
       data: parameterMap,
       cache: true,
       dataType: 'jsonp',
       jsonpCallback: 'cb',
+      error: function(xhr, exception) {
+        alert('Yelp API error: ' + xhr.url);
+      },
       success: function (data, textStats, XMLHttpRequest) {
         var start = {latitude: latitude, longitude: longitude};
 
@@ -169,6 +172,8 @@ else {
     .script('sha1.js')
     .script('ICanHaz.js')
     .script('underscore.js')
+    .wait()
+    .script('jquery.jsonp-2.3.0.min.js')
     .wait(function () {
       $(function() { // wait til dom loaded so ICanHaz can do its thing
         new App().init();
