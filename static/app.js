@@ -107,7 +107,7 @@ var App = function () {
       dataType: 'jsonp',
       jsonpCallback: 'cb',
       error: function(xhr, exception) {
-        alert('Yelp API error: ' + xhr.url);
+        alert('We have hit the daily limit for hitting Yelp\'s API. We are looking into getting out limit increased');
       },
       success: function (data, textStats, XMLHttpRequest) {
         var start = {latitude: latitude, longitude: longitude};
