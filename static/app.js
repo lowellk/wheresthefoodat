@@ -61,10 +61,10 @@ var App = function () {
   var auth = {
     consumerKey: "4ZUyLz2rIvU5cIzCHnnkbA",
     consumerSecret: "sWo_pi77q5WBYGP5k8pP4Cwgxgw",
-    accessToken: "cFcqGdyz8zpfO3NLTDJwK3vhT2eKLm_7",
+    accessToken: "MEeF_C_-hc9xzejfJhY7gVE55vFEV61Q",
     // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
     // You wouldn't actually want to expose your access token secret like this in a real application.
-    accessTokenSecret: "3qVfLwOMxyBOtRaI4e5gPGcpHf4",
+    accessTokenSecret: "XBs_ZfB8VDvJZqL1t8pju7gpWvk",
     serviceProvider: {
       signatureMethod: "HMAC-SHA1"
     }
