@@ -1,4 +1,4 @@
-var app = (function () {
+var App = function () {
 
   var SORT_TYPE = {
     distance: 1
@@ -148,7 +148,7 @@ var app = (function () {
     }
   }
 
-})();
+};
 
 if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
   // TODO: ugly, show a nicer error page with instructions
@@ -170,6 +170,8 @@ else {
     .script('ICanHaz.js')
     .script('underscore.js')
     .wait(function () {
-      app.init();
+      $(function() { // wait til dom loaded so ICanHaz can do its thing
+        new App().init();
+      });
     });
 }
