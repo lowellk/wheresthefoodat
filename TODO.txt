@@ -1,13 +1,15 @@
+- staging server
 - humans.txt
-- about page
-  - info about limitations
-  - this app is not production ready
 - intro page
 - backbone?
 - favicon
 - mobile web app capable
 - newrelic: https://newrelic.com/docs/python/python-agent-and-gunicorn
 - fork me on github
-- instructions for setup
-  - e.g. deploying to heroku: https://devcenter.heroku.com/articles/config-vars
+- REAMDE
+  - instructions for setup
+    - e.g. deploying to heroku: https://devcenter.heroku.com/articles/config-vars
+  - info about limitations
+  - this app is not production ready
+
 - what if no local storage?
