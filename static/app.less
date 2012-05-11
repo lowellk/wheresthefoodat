@@ -1,18 +1,20 @@
-//TODO: move things which only belong on index page out of here
 //TODO: also rename this to base.less or something
-
-@device_width: 320px;
-@summary_height: 100px;
+// TODO: merge reset.css into this
 
 html, body {
   font-family: sans-serif;
-  padding: 0;
-  margin: 0;
   background-color: #e8e8e8;
 }
 
+header {
+  padding: 10px;
+  h1 {
+    text-shadow: 1px 1px 6px gray;
+  }
+}
+
 .content {
-  width: @device_width;
+  width: 320px;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
@@ -41,77 +43,4 @@ h3 {
 
 h4 {
   font-size: 1.2em;
-}
-
-header {
-  padding: 10px;
-  h1 {
-    text-shadow: 1px 1px 6px gray;
-  }
-}
-
-
-.spinner {
-  display: block;
-  margin: 0 auto 10px;
-}
-
-.business {
-  position: relative;
-  margin-bottom: 15px;
-
-  .summary {
-    height: @summary_height;
-  }
-
-  .description {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-
-    * {
-      color: white;
-    }
-  }
-
-  .overlay {
-    width: @device_width;
-    height: @summary_height;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  .extended-info {
-    margin-top: 5px;
-    padding: 0 10px;
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      .rating-image {
-        vertical-align: middle;
-      }
-    }
-  }
-}
-
-footer {
-  border-top: 1px solid #bbb;
-  padding: 10px;
-  p {
-    text-align: center;
-  }
-  img {
-    margin-top: 5px;
-    display: block;
-    margin: 5px auto 0;
-  }
-}
-
-.spacer {
-  // TODO: better technique for quick hiding of url bar
-  height: 1500px;
 }

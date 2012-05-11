@@ -1,0 +1,66 @@
+@summary_height: 100px;
+
+.spinner {
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.business {
+  position: relative;
+  margin-bottom: 15px;
+
+  .summary {
+    height: @summary_height;
+  }
+
+  .description {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    * {
+      color: white;
+    }
+  }
+
+  .overlay {
+    width: 320px;
+    height: @summary_height;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .extended-info {
+    margin-top: 5px;
+    padding: 0 10px;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .rating-image {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+footer {
+  border-top: 1px solid #bbb;
+  padding: 10px;
+  p {
+    text-align: center;
+  }
+  img {
+    margin-top: 5px;
+    display: block;
+    margin: 5px auto 0;
+  }
+}
+
+.spacer {
+  // TODO: better technique for quick hiding of url bar
+  height: 1500px;
+}
