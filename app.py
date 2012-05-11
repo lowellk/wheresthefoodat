@@ -19,27 +19,19 @@ def yelp_keys():
     return jsonify(app.config['YELP_KEYS'])
 
 
-class ProductionConfig(object):
-    DEBUG = False
-    # key from main yelp account
-    # This example is a proof of concept, for how to use the Yelp v2 API with javascript.
-    # You wouldn't actually want to expose your access token secret like this in a real application.
+class Config(object):
     YELP_KEYS = {
-        'consumerKey': '4ZUyLz2rIvU5cIzCHnnkbA',
-        'consumerSecret': 'sWo_pi77q5WBYGP5k8pP4Cwgxgw',
-        'accessToken': 'MEeF_C_-hc9xzejfJhY7gVE55vFEV61Q',
-        'accessTokenSecret': 'XBs_ZfB8VDvJZqL1t8pju7gpWvk'
+        'consumerKey': os.environ['CONSUMER_KEY'],
+        'consumerSecret': os.environ['CONSUMER_SECRET'],
+        'accessToken': os.environ['ACCESS_TOKEN'],
+        'accessTokenSecret': os.environ['ACCESS_TOKEN_SECRET']
     }
 
-class DevelopmentConfig(object):
+class DevelopmentConfig(Config):
     DEBUG = True
-    # key from yelp account with lowellk+test@gmail.com
-    YELP_KEYS = {
-        'consumerKey': 'V8ZL9dmLpBcirFe4WwGoWQ',
-        'consumerSecret': 'bcz7q17KzeWRscTw7x0AInvFHhg',
-        'accessToken': 'EDZPMzRb_hbgCUPRlbREZASgCqZgpiVK',
-        'accessTokenSecret': 'rxOjyQyAjC0bJPFyxwG0RecLEGU'
-    }
+
+class ProductionConfig(Config):
+    DEBUG = False
 
 def configure():
     debug = os.environ.get('DEBUG', False)
