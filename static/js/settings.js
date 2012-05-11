@@ -99,3 +99,21 @@ SettingsPage.prototype.setupUI = function () {
   });
 };
 
+// hide the url bar
+setTimeout(function () {
+  window.scrollTo(0, 1);
+}, 0);
+
+// load scripts then start the app
+$LAB
+  .script('js/external/jquery.min.js')
+  .script('js/external/underscore.js')
+  .script('js/external/jstorage.js')
+  .script('js/settings.js')
+  .script('js/settings-access.js')
+  .wait(function () {
+    // TODO: global var
+    settingsPage = new SettingsPage();
+    settingsPage.init();
+    settingsPage.printFoursquarePlaces();
+  });
