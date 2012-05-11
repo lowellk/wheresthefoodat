@@ -26,16 +26,16 @@
     <h3>Use data from:</h3>
 
     <!--http://www.yelp.com/developers/getting_started/display_requirements-->
-    <div>
+    <label>
       <input type="checkbox" class="js-yelp-checkbox">
       <img src="http://media3.ak.yelpcdn.com/static/201012163983986833/img/developers/yelp_logo_100x50.png"/>
-    </div>
+    </label>
 
     <!--https://foursquare.com/about/logos-->
-    <div>
+    <label>
       <input type="checkbox" class="js-foursquare-checkbox">
       <img src="https://playfoursquare.s3.amazonaws.com/press/logo/icon-36x36.png"/>
-    </div>
+    </label>
 
   </section>
 </div>
@@ -55,7 +55,7 @@
       .script('settings.js')
       .script('settings-access.js')
       .wait(function () {
-        var settingsPage = new SettingsPage();
+        settingsPage = new SettingsPage();
         settingsPage.init();
         settingsPage.printFoursquarePlaces();
       });
