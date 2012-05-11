@@ -77,6 +77,7 @@ SettingsPage.prototype.getNearbyFoodTrucks = function (position) {
   });
 };
 
+
 // TODO: more elegant approach
 SettingsPage.prototype.setupUI = function () {
   var settingsPage = this;
@@ -109,7 +110,6 @@ $LAB
   .script('js/external/jquery.min.js')
   .script('js/external/underscore.js')
   .script('js/external/jstorage.js')
-  .script('js/settings.js')
   .script('js/settings-access.js')
   .wait(function () {
     // TODO: global var
