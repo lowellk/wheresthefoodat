@@ -105,7 +105,7 @@ $LAB
   .script('js/external/sha1.js')
   .script('js/external/ICanHaz.js')
   .script('js/external/underscore.js')
-  .script('place.js')
+  .script('js/place.js')
   .wait(function () {
     $(function () { // wait til dom loaded so ICanHaz can do its thing
       new IndexPage().init();
