@@ -37,8 +37,8 @@ SettingsPage.prototype.init = function () {
     }
     else if ('access_token' in parsedHash) {
       var accessToken = parsedHash['access_token'];
-      this.setFoursquareToken(accessToken);
-      this.setUseFoursquare(true);
+      this.settingsAccess.setFoursquareToken(accessToken);
+      this.settingsAccess.setUseFoursquare(true);
     }
     else {
       console.error('Unknown hash:', parsedHash)
@@ -79,7 +79,7 @@ SettingsPage.prototype.getNearbyFoodTrucks = function (position) {
 
 // TODO: more elegant approach
 SettingsPage.prototype.setupUI = function () {
-  var that = this;
+  var settingsPage = this;
   var settingsAccess = this.settingsAccess;
 
   $('.js-yelp-checkbox').attr('checked', settingsAccess.getUseYelp());
@@ -91,7 +91,7 @@ SettingsPage.prototype.setupUI = function () {
   $('.js-foursquare-checkbox').click(function () {
     if (!settingsAccess.isAuthedWithFoursquare() && $(this).is(':checked')) {
       if (window.confirm('You must login with your Foursquare account to use their data. OK?')) {
-        that.authWithFoursquare();
+        settingsPage.authWithFoursquare();
       }
       return false;
     }
