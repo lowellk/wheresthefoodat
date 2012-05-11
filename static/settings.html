@@ -5,10 +5,10 @@
 
   <meta name="viewport" content="user-scalable=no, width=device-width">
 
-  <link rel="stylesheet" href="reset.css"/>
+  <link rel="stylesheet" href="css/reset.css"/>
   <link rel="stylesheet/less" type="text/css" href="app.less"/>
   <link rel="stylesheet/less" type="text/css" href="settings.less"/>
-  <script type="text/javascript" src="less-1.3.0.min.js"></script>
+  <script type="text/javascript" src="js/external/less-1.3.0.min.js"></script>
 
   <script>
 
@@ -28,13 +28,13 @@
     <!--http://www.yelp.com/developers/getting_started/display_requirements-->
     <label>
       <input type="checkbox" class="js-yelp-checkbox">
-      <img src="http://media3.ak.yelpcdn.com/static/201012163983986833/img/developers/yelp_logo_100x50.png"/>
+      <img src="img/yelp_logo_100x50.png"/>
     </label>
 
     <!--https://foursquare.com/about/logos-->
     <label>
       <input type="checkbox" class="js-foursquare-checkbox">
-      <img src="https://playfoursquare.s3.amazonaws.com/press/logo/icon-36x36.png"/>
+      <img src="img/icon-36x36.png"/>
     </label>
 
   </section>
@@ -44,7 +44,7 @@
   </footer>
 </div>
 
-<script type="text/javascript" src="LAB.min.js"></script>
+<script type="text/javascript" src="js/external/LAB.min.js"></script>
 <script>
   // hide the url bar
   setTimeout(function () {
@@ -53,9 +53,9 @@
 
   // load scripts then start the app
   $LAB
-      .script('jquery.min.js')
-      .script('underscore.js')
-      .script('jstorage.js')
+      .script('js/external/jquery.min.js')
+      .script('js/external/underscore.js')
+      .script('js/external/jstorage.js')
       .script('settings.js')
       .script('settings-access.js')
       .wait(function () {

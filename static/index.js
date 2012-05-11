@@ -100,11 +100,11 @@ window.scrollTo(0, 1);
 
 // load scripts then start the app
 $LAB
-  .script('jquery.min.js')
-  .script('oauth.js')
-  .script('sha1.js')
-  .script('ICanHaz.js')
-  .script('underscore.js')
+  .script('js/external/jquery.min.js')
+  .script('js/external/oauth.js')
+  .script('js/external/sha1.js')
+  .script('js/external/ICanHaz.js')
+  .script('js/external/underscore.js')
   .script('place.js')
   .wait(function () {
     $(function () { // wait til dom loaded so ICanHaz can do its thing
