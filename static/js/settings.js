@@ -48,36 +48,6 @@ SettingsPage.prototype.init = function () {
 };
 
 
-SettingsPage.prototype.printFoursquarePlaces = function () {
-  navigator.geolocation.getCurrentPosition(_.bind(this.getNearbyFoodTrucks, this));
-};
-
-
-// TODO: make replaceAll(string, {key, value}) method
-// TODO: sort by distance
-SettingsPage.prototype.getNearbyFoodTrucks = function (position) {
-  var latLng = position.coords.latitude + ',' + position.coords.longitude;
-  var urlTemplate = 'https://api.foursquare.com/v2/venues/search?categoryId={categoryId}&ll={latLng}&oauth_token={oauthToken}&v=20120509';
-  var categoryId = '4bf58dd8d48988d1cb941735'; // TODO: is this stable?
-  var url = urlTemplate
-    .replace('{oauthToken}', this.settingsAccess.getFoursquareToken())
-    .replace('{latLng}', latLng)
-    .replace('{categoryId}', categoryId);
-  // TODO: error handling
-  $.getJSON(url, {}, function (data) {
-    var trucks = data.response.venues;
-    _.each(trucks, function (truck) {
-      var categoryIds = _.pluck(truck.categories, 'id');
-      if (!_.include(categoryIds, categoryId)) {
-        //console.warn('ignoring due to categories:', _.pluck(truck.categories, 'name'));
-        return;
-      }
-      console.info(truck.name, truck);
-    });
-  });
-};
-
-
 // TODO: more elegant approach
 SettingsPage.prototype.setupUI = function () {
   var settingsPage = this;
