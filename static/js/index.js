@@ -9,7 +9,7 @@ function IndexPage() {
 /**
  * Get nearby places from Yelp and update the DOM
  */
-IndexPage.prototype.getAndRenderYelpPlaces = function (auth, currentLocation) {
+IndexPage.prototype.getAndRenderYelpPlaces = function (auth, coords) {
   var message = {
     'action': 'http://api.yelp.com/v2/search',
     'method': 'GET',
@@ -23,7 +23,7 @@ IndexPage.prototype.getAndRenderYelpPlaces = function (auth, currentLocation) {
       ['category_filter', 'streetvendors,foodstands'],
       ['sort', 1],
       // sort by distance
-      ['ll', [currentLocation.latitude, currentLocation.longitude].join(',')]
+      ['ll', [coords.latitude, coords.longitude].join(',')]
     ]
   };
 
@@ -46,7 +46,7 @@ IndexPage.prototype.getAndRenderYelpPlaces = function (auth, currentLocation) {
     dataType: 'jsonp',
     jsonpCallback: 'cb',
     success: function (data) {
-      that.onSuccessfullyGetYelpBusinesses(data.businesses, currentLocation);
+      that.onSuccessfullyGetYelpBusinesses(data.businesses, coords);
     }
   });
 };
@@ -95,32 +95,40 @@ IndexPage.prototype.init = function () {
   });
 };
 
-IndexPage.prototype.printFoursquarePlaces = function () {
-  navigator.geolocation.getCurrentPosition(_.bind(this.getNearbyFoodTrucks, this));
+
+// TODO: make replaceAll(string, {key, value}) method
+// TODO: sort by distance?
+IndexPage.prototype.onSuccessfullyGetFoursquareVenues = function(venues, currentCoords, categoryId) {
+  $(".spinner, .spacer").remove();
+
+  _.each(venues, function (venue) {
+    var categoryIds = _(venue.categories).pluck('id');
+    if (!_(categoryIds).include(categoryId)) {
+      //console.warn('ignoring due to categories:', _(venue.categories).pluck('name'));
+      return;
+    }
+    var place = Place.forFoursquareVenue(venue);
+    console.info(venue.name, venue);
+    var templateData = place.getTemplateData(currentCoords);
+    $(".businesses").append(ich.tpl_business(templateData))
+  });
 };
 
 
-// TODO: make replaceAll(string, {key, value}) method
-// TODO: sort by distance
-IndexPage.prototype.getNearbyFoodTrucks = function (position) {
-  var latLng = position.coords.latitude + ',' + position.coords.longitude;
-  var urlTemplate = 'https://api.foursquare.com/v2/venues/search?categoryId={categoryId}&ll={latLng}&oauth_token={oauthToken}&v=20120509';
+IndexPage.prototype.getAndRenderFoursquarePlaces = function (currentCoords) {
   var categoryId = '4bf58dd8d48988d1cb941735'; // TODO: is this stable?
+  var latLng = currentCoords.latitude + ',' + currentCoords.longitude;
+  var urlTemplate = 'https://api.foursquare.com/v2/venues/search?categoryId={categoryId}&ll={latLng}&oauth_token={oauthToken}&v=20120509';
   var url = urlTemplate
     .replace('{oauthToken}', this.settingsAccess.getFoursquareToken())
     .replace('{latLng}', latLng)
     .replace('{categoryId}', categoryId);
+  var that = this;
+
   // TODO: error handling
   $.getJSON(url, {}, function (data) {
-    var trucks = data.response.venues;
-    _.each(trucks, function (truck) {
-      var categoryIds = _.pluck(truck.categories, 'id');
-      if (!_.include(categoryIds, categoryId)) {
-        //console.warn('ignoring due to categories:', _.pluck(truck.categories, 'name'));
-        return;
-      }
-      console.info(truck.name, truck);
-    });
+    var venues = data.response.venues;
+    that.onSuccessfullyGetFoursquareVenues(venues, currentCoords, categoryId);
   });
 };
 
@@ -141,6 +149,7 @@ $LAB
   .script('js/settings-access.js')
   .wait(function () {
     $(function () { // wait til dom loaded so ICanHaz can do its thing
-      new IndexPage().init();
+      var indexPage = new IndexPage();
+      indexPage.init();
     });
   });

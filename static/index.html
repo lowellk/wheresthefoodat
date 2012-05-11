@@ -39,10 +39,17 @@ TODO:
       </div>
       <div class="extended-info">
         <ul>
-          <li><img class="rating-image" src="{{rating_img_url}}"> ({{review_count}} reviews)</li>
-          <li>Categories: {{pretty_categories}}</li>
+          {{#is_from_yelp}}
+            <li><img class="rating-image" src="{{rating_img_url}}"> ({{review_count}} reviews)</li>
+          {{/is_from_yelp}}
+          {{#pretty_categories}}
+            <li>Categories: {{pretty_categories}}</li>
+          {{/pretty_categories}}
           <li><a href="{{directions_url}}">Directions</a></li>
-          <li><a href="{{mobile_url}}">View on Yelp</a></li>
+          <li><a href="{{external_url}}">{{external_url_text}}</a></li>
+          {{#twitter_url}}
+            <li><a href="http://twitter.com/{{twitter_url}}">Twitter: {{twitter_url}}</a></li>
+          {{/twitter_url}}
         </ul>
       </div>
     </div>
