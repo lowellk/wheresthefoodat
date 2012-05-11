@@ -6,3 +6,8 @@
 - backbone?
 - favicon
 - mobile web app capable
+- newrelic: https://newrelic.com/docs/python/python-agent-and-gunicorn
+- fork me on github
+- instructions for setup
+  - e.g. deploying to heroku: https://devcenter.heroku.com/articles/config-vars
+- what if no local storage?
