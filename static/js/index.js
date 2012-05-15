@@ -31,6 +31,12 @@ IndexPage.prototype.initLogger = function () {
 IndexPage.prototype.init = function () {
   this.log('init');
 
+  if (/^www/.test(window.location.hostname)) {
+    // foursquare redirect tied to exact url, so redirect
+    window.location.href = window.location.href.replace('www.', '');
+    return; // not strictly needed
+  }
+
   if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
     alert('Error: this app can only be used in a browser that supports geolocation.');
     return;
