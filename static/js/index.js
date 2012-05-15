@@ -52,6 +52,15 @@ IndexPage.prototype.init = function () {
 };
 
 
+IndexPage.prototype.maybeHideUrlBar = function (location) {
+  if (this._hidUrlBar) {
+    return;
+  }
+  window.scrollTo(0, 1);
+  this._hidUrlBar = true;
+};
+
+
 IndexPage.prototype.onGeolocationSuccess = function (location) {
   if (this.foursquare.getUseFoursquare()) {
     this.foursquare.getPlaces(location.coords, _.bind(this.onSuccessfullyGetFoursquareVenues, this));
@@ -92,6 +101,8 @@ IndexPage.prototype.onSuccessfullyGetYelpBusinesses = function (businesses, curr
     var templateData = place.getTemplateData(currentLocation);
     $(".yelp-businesses .businesses").append(ich.tpl_business(templateData))
   });
+
+  this.maybeHideUrlBar();
 };
 
 
@@ -144,6 +155,8 @@ IndexPage.prototype.onSuccessfullyGetFoursquareVenues = function (venues, curren
     var templateData = place.getTemplateData(currentCoords);
     $(".foursquare-businesses .businesses").append(ich.tpl_business(templateData))
   });
+
+  this.maybeHideUrlBar();
 };
 
 

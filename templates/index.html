@@ -113,12 +113,6 @@
 </div>
 <script type="text/javascript" src="../static/js/external/LAB.min.js?version={{version}}"></script>
 <script>
-  // TODO: does this work?
-  // hide the url bar
-  setTimeout(function () {
-    window.scrollTo(0, 1);
-  }, 0);
-
   // load scripts then start the app
   $LAB
       .script('js/external/jquery.min.js?version={{version}}')
@@ -135,10 +129,11 @@
       .script('js/index.js?version={{version}}')
       .wait(function() {
         // override mustache tags to not interfere with jinja2 on the backend
+        // this must come before ICanHaz is loaded
         Mustache.tags = ['[[', ']]'];
       })
       .script('js/external/ICanHaz-no-mustache.min.js?version={{version}}')
-      .script('js/jquery-extensions.js?version={{version}}')
+      .script('js/jquery-extensions.js?version={{version}}') // must come after jquery
       .wait(function () {
         $(function () { // wait til dom loaded so ICanHaz can do its thing
           var indexPage = new IndexPage();
