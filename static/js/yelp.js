@@ -48,8 +48,6 @@ Yelp.prototype.getPlaces = function (auth, coords, callback) {
   var parameterMap = OAuth.getParameterMap(message.parameters);
   parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 
-  var that = this;
-
   // TODO: using jsonp so can't attach an error handler. Proxy instead of using jsonp.
   $.ajax({
     url: message.action,
