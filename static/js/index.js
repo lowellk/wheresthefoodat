@@ -58,11 +58,15 @@ IndexPage.prototype.init = function () {
 };
 
 
-IndexPage.prototype.maybeHideUrlBar = function (location) {
+IndexPage.prototype.maybeHideUrlBar = function () {
+  if (true) {
+    // TODO: doesn't feel like it's working well right now.
+    return;
+  }
   if (this._hidUrlBar) {
     return;
   }
-  window.scrollTo(0, 1);
+  window.scrollTo(0, 0);
   this._hidUrlBar = true;
 };
 
@@ -178,7 +182,11 @@ IndexPage.prototype.setupUI = function () {
   }
   $('.js-yelp-checkbox').attr('checked', useYelp);
   $('.js-yelp-checkbox').click(function () {
-    that.yelp.setUseYelp($(this).is(':checked'));
+    var isChecked = $(this).is(':checked');
+    that.yelp.setUseYelp(isChecked);
+    if (isChecked) {
+      window.location.reload();
+    }
   });
 
   var useFoursquare = this.foursquare.getUseFoursquare();
@@ -187,13 +195,17 @@ IndexPage.prototype.setupUI = function () {
   }
   $('.js-foursquare-checkbox').attr('checked', useFoursquare);
   $('.js-foursquare-checkbox').click(function () {
-    if (!that.foursquare.isAuthedWithFoursquare() && $(this).is(':checked')) {
+    var isChecked = $(this).is(':checked');
+    if (!that.foursquare.isAuthedWithFoursquare() && isChecked) {
       if (window.confirm('You must login with your Foursquare account to use their data. OK?')) {
         that.foursquare.doAuth();
       }
       return false;
     }
-    that.foursquare.setUseFoursquare($(this).is(':checked'));
+    that.foursquare.setUseFoursquare(isChecked);
+    if (isChecked) {
+      window.location.reload();
+    }
   });
 
   if (!useYelp && !useFoursquare) {
