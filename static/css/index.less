@@ -5,6 +5,21 @@
   margin: 0 auto 10px;
 }
 
+.fork-me-banner {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@min_banner_width: 2 * 149px + 320px;
+
+// only show banner if screen is sufficiently wide (i.e. not on mobile)
+@media all and (max-width: @min_banner_width) {
+  .fork-me-banner {
+    display: none;
+  }
+}
+
 .datasources {
   padding: 10px;
   border-top: 1px solid gray;
