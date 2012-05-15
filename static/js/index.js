@@ -117,7 +117,6 @@ IndexPage.prototype.processHash = function () {
     if ('error' in parsedHash) {
       // access_denied means the user meant to deny access
       if (parsedHash.error !== 'access_denied') {
-        // TODO: chop off the error hash -> redirect to window.location.pathname
         alert('There was an error: ' + parsedHash['error']);
       }
     }
@@ -129,6 +128,8 @@ IndexPage.prototype.processHash = function () {
     else {
       console.error('Unknown hash:', parsedHash)
     }
+    // chop off the hash
+    window.location.href = window.location.pathname;
   }
 };
 
