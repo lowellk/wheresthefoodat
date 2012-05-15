@@ -113,9 +113,13 @@ IndexPage.prototype.processHash = function () {
 
   var parsedHash = this.parseHash();
   if (parsedHash) {
+    // XXX: might want better messages based on https://developer.foursquare.com/overview/responses
     if ('error' in parsedHash) {
-      // TODO: chop off the error hash -> redirect to window.location.pathname
-      alert('There was an error: ' + parsedHash['error']);
+      // access_denied means the user meant to deny access
+      if (parsedHash.error !== 'access_denied') {
+        // TODO: chop off the error hash -> redirect to window.location.pathname
+        alert('There was an error: ' + parsedHash['error']);
+      }
     }
     else if ('access_token' in parsedHash) {
       var accessToken = parsedHash['access_token'];
@@ -176,33 +180,3 @@ IndexPage.prototype.setupUI = function () {
     $('.datasources').yellowFade();
   }
 };
-
-
-// TODO: does this work?
-// hide the url bar
-setTimeout(function () {
-  window.scrollTo(0, 1);
-}, 0);
-
-
-// load scripts then start the app
-$LAB
-  .script('js/external/jquery.min.js')
-  .script('js/external/oauth.js')
-  .script('js/external/sha1.js')
-  .script('js/external/ICanHaz.js')
-  .script('js/external/underscore.js')
-  .script('js/external/jstorage.js')
-  .script('js/external/jquery.color.js')
-  .script('js/util.js')
-  .script('js/place.js')
-  .script('js/yelp.js')
-  .script('js/foursquare.js')
-  .wait()
-  .script('js/jquery-extensions.js')
-  .wait(function () {
-    $(function () { // wait til dom loaded so ICanHaz can do its thing
-      var indexPage = new IndexPage();
-      indexPage.init();
-    });
-  });

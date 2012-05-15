@@ -20,3 +20,4 @@
 - zepto
 - retina graphics
 - get rid of 'that'
+- minified all scripts (just in prod?)

@@ -1,5 +1,4 @@
-import sys
-import os, flask
+import os, flask, random
 from werkzeug import SharedDataMiddleware
 from flask import Flask, jsonify
 
@@ -12,13 +11,15 @@ app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
 
 @app.route('/')
 def hello():
-    return flask.redirect('index.html')
+    return flask.render_template('index.html', version=app.config['VERSION'])
 
 
-# hack, get rid!
-@app.route('/env-foobar-baz')
-def env():
-    return jsonify(keys=os.environ.keys())
+@app.route('/index.html')
+def old_index():
+    """
+    The old page to which / was redirected. It's reversed now.
+    """
+    return flask.redirect('/')
 
 
 @app.route('/yelp-keys')
@@ -43,6 +44,8 @@ class Config(object):
     FOURSQUARE_KEYS = {
         'clientId': os.environ['FOURSQUARE_CLIENT_ID']
     }
+    # XXX: we can version things more effectively than this naive approach
+    VERSION = random.randint(1, 1000000000)
 
 
 class DevelopmentConfig(Config):
