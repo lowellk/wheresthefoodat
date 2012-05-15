@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Wheresthefoodat by lowellk</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Wheresthefoodat</h1>
+        <p>This is the code that runs http://wheresthefood.at. It is not quite ready for primetime. </p>
+        <p class="view"><a href="https://github.com/lowellk/wheresthefoodat">View the Project on GitHub <small>lowellk/wheresthefoodat</small></a></p>
+        <ul>
+          <li><a href="https://github.com/lowellk/wheresthefoodat/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/lowellk/wheresthefoodat/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/lowellk/wheresthefoodat">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Setup</h2>
+
+<p>You need to register a developer account at <a href="https://foursquare.com/oauth/">https://foursquare.com/oauth/</a>.
+Then create an app and take note of the clientId. You need to pass this to
+your app as an environment variable. To create the app, you will need to 'register a new consumer'.
+For both its website and callback url, put 'http://localhost:5000' (this is for the dev setup).</p>
+
+<p>You also need to create a developer account at <a href="http://www.yelp.com/developers/getting_started/api_access">http://www.yelp.com/developers/getting_started/api_access</a>.
+You must then generate API keys and take note of the following keys and values:
+Consumer Key, Consumer Secret, Token, Token Secret. These also need to be set as environment variables
+for your app (i.e. Consumer Key -&gt; CONSUMER_KEY).</p>
+
+<h2>API Keys</h2>
+
+<p>To get the app working locally, put all the keys in a file called '.env'. It should contain one
+line for each key/value pair and each line should be of the form:</p>
+
+<pre><code>KEY=VALUE
+</code></pre>
+
+<h3>Developement</h3>
+
+<p>Install libraries via 'pip install -r requirements.txt'. You probably want
+to use virtualenv for this app (Google it if you don't know how).</p>
+
+<p>Run the app via 'foreman start -f Procfile.dev'.</p>
+
+<p>Make sure your app works by going to a web browser and visit http://localhost:5000.</p>
+
+<h3>Local Production Instance</h3>
+
+<p>Run the app via 'foreman start'.</p>
+
+<p>Make sure your app works by going to a web browser and visit http://localhost:5000.</p>
+
+<h3>Heroku Production Instance</h3>
+
+<p>Create a heroku app.</p>
+
+<p>Configure all the environment variables mentioned above using
+<a href="https://devcenter.heroku.com/articles/config-vars">https://devcenter.heroku.com/articles/config-vars</a></p>
+
+<p>Deploy and test.</p>
+
+<h2>Limitations</h2>
+
+<p>This app is not ready for production. Some limitations:</p>
+
+<ul>
+<li>performance could easily be improved:
+
+<ul>
+<li>build / concat js and css files</li>
+<li>use gzip</li>
+<li>proxy yelp requests instead of using jsonp</li>
+<li>use zepto instead of jquery</li>
+</ul>
+</li>
+<li>get working on IE8</li>
+<li>work in the absence of localstorage</li>
+<li>use retina graphics on iphone / ipad</li>
+<li>better caching
+
+<ul>
+<li>far future expires headers for all/most pages</li>
+<li>smarter cache busting - currently cache is busted for all files on every deploy</li>
+</ul>
+</li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/lowellk">lowellk</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31499537-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
