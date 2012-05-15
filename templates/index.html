@@ -7,7 +7,7 @@
 
   <meta name="author" content="Lowell Kirsh">
   <meta name="description" content="Helping you find street food nearby">
-  <meta name="keywords" content="street,food,streetfood,truck,foodtruck">
+  <meta name="keywords" content="street,food,streetfood,truck,foodtruck,local,yelp,foursquare">
 
   <link rel="stylesheet" href="../static/css/reset.css"/>
   <link rel="stylesheet/less" type="text/css" href="../static/css/base.less"/>
@@ -17,7 +17,7 @@
   <!--<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>-->
   <!--<script src="http://debug.phonegap.com/target/target-script-min.js#pookie"></script>-->
 
-  <!-- template -->
+  <!-- client side template -->
   <script type="text/html" id="tpl_business">
     <div class="business">
       <div class="summary">
@@ -121,7 +121,7 @@
       .script('js/external/jquery.min.js?version={{version}}')
       .script('js/external/oauth.js?version={{version}}')
       .script('js/external/sha1.js?version={{version}}')
-      .script('js/external/underscore.js?version={{version}}')
+      .script('js/external/underscore.min.js?version={{version}}')
       .script('js/external/jstorage.js?version={{version}}')
       .script('js/external/jquery.color.js?version={{version}}')
       .script('js/external/mustache.js?version={{version}}')
@@ -134,7 +134,7 @@
         // override mustache tags to not interfere with jinja2 on the backend
         Mustache.tags = ['[[', ']]'];
       })
-      .script('js/external/ICanHaz-no-mustache.js?version={{version}}')
+      .script('js/external/ICanHaz-no-mustache.min.js?version={{version}}')
       .script('js/jquery-extensions.js?version={{version}}')
       .wait(function () {
         $(function () { // wait til dom loaded so ICanHaz can do its thing
