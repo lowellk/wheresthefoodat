@@ -1,3 +1,4 @@
+import sys
 import os, flask
 from werkzeug import SharedDataMiddleware
 from flask import Flask, jsonify
@@ -16,22 +17,35 @@ def hello():
 
 @app.route('/yelp-keys')
 def yelp_keys():
-    return jsonify(app.config['YELP_KEYS'])
+    keys = app.config['YELP_KEYS']
+    return jsonify(keys)
+
+
+@app.route('/foursquare-keys')
+def foursquare_keys():
+    keys = app.config['FOURSQUARE_KEYS']
+    return jsonify(keys)
 
 
 class Config(object):
     YELP_KEYS = {
-        'consumerKey': os.environ['CONSUMER_KEY'],
-        'consumerSecret': os.environ['CONSUMER_SECRET'],
-        'accessToken': os.environ['ACCESS_TOKEN'],
-        'accessTokenSecret': os.environ['ACCESS_TOKEN_SECRET']
+        'consumerKey': os.environ['YELP_CONSUMER_KEY'],
+        'consumerSecret': os.environ['YELP_CONSUMER_SECRET'],
+        'accessToken': os.environ['YELP_ACCESS_TOKEN'],
+        'accessTokenSecret': os.environ['YELP_ACCESS_TOKEN_SECRET']
     }
+    FOURSQUARE_KEYS = {
+        'clientId': os.environ['FOURSQUARE_CLIENT_ID']
+    }
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
 
+
 class ProductionConfig(Config):
     DEBUG = False
+
 
 def configure():
     debug = os.environ.get('DEBUG', False)
@@ -44,7 +58,7 @@ def configure():
     app.config.from_object(config)
 
 
-# TODO: seems gross to having this sitting here like this
+# XXX: seems gross to having this sitting here like this
 configure()
 
 if __name__ == '__main__':

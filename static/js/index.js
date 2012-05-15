@@ -2,67 +2,26 @@
  * @constructor
  */
 function IndexPage() {
-  this.settingsAccess = new SettingsAccess();
+  this.yelp = new Yelp;
+  this.foursquare = new Foursquare;
+  this.initLogger();
 }
 
 
-/**
- * Get nearby places from Yelp and update the DOM
- */
-IndexPage.prototype.getAndRenderYelpPlaces = function (auth, coords) {
-  var message = {
-    'action': 'http://api.yelp.com/v2/search',
-    'method': 'GET',
-    'parameters': [
-      ['term', 'food'],
-      ['callback', 'cb'],
-      ['oauth_consumer_key', auth.consumerKey],
-      ['oauth_consumer_secret', auth.consumerSecret],
-      ['oauth_token', auth.accessToken],
-      ['oauth_signature_method', 'HMAC-SHA1'],
-      ['category_filter', 'streetvendors,foodstands'],
-      ['sort', 1],
-      // sort by distance
-      ['ll', [coords.latitude, coords.longitude].join(',')]
-    ]
-  };
-
-  OAuth.setTimestampAndNonce(message);
-  OAuth.SignatureMethod.sign(message, {
-    consumerSecret: auth.consumerSecret,
-    tokenSecret: auth.accessTokenSecret
-  });
-
-  var parameterMap = OAuth.getParameterMap(message.parameters);
-  parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
-
-  var that = this;
-
-  // TODO: using jsonp so can't attach an error handler. Proxy instead of using jsonp.
-  $.ajax({
-    url: message.action,
-    data: parameterMap,
-    cache: true,
-    dataType: 'jsonp',
-    jsonpCallback: 'cb',
-    success: function (data) {
-      that.onSuccessfullyGetYelpBusinesses(data.businesses, coords);
-    }
-  });
+IndexPage.prototype.log = function () {
+  // do nothing unless there is a console.log function
 };
 
 
 /**
- * callback for successful ajax request for yelp businesses
+ * setup a logger if console.log is defined
  */
-IndexPage.prototype.onSuccessfullyGetYelpBusinesses = function (businesses, currentLocation) {
-  $(".spinner, .spacer").remove();
-
-  _.each(businesses, function (business) {
-    var place = Place.forYelpBusiness(business);
-    var templateData = place.getTemplateData(currentLocation);
-    $(".businesses").append(ich.tpl_business(templateData))
-  });
+IndexPage.prototype.initLogger = function () {
+  if (typeof console != 'undefined' && console.log) {
+    this.log = function () {
+      console.log.apply(console, arguments);
+    };
+  }
 };
 
 
@@ -70,72 +29,161 @@ IndexPage.prototype.onSuccessfullyGetYelpBusinesses = function (businesses, curr
  * start the app
  */
 IndexPage.prototype.init = function () {
+  this.log('init');
+
   if (!navigator.geolocation && !navigator.geolocation.getCurrentPosition) {
-    // TODO: ugly, show a nicer error page with instructions
     alert('Error: this app can only be used in a browser that supports geolocation.');
     return;
   }
 
   if (!document.addEventListener) {
-    // TODO: not an inherent problem. Can patch ICanHaz.js to work with IE < 9
+    // XXX: not an inherent problem. Can patch ICanHaz.js to work with IE < 9
     alert('You are using an old version of Internet Explorer. Please use a modern browser.');
     return;
   }
 
-  var that = this;
+  this.processHash();
 
-  navigator.geolocation.getCurrentPosition(function (location) {
-    // TODO: serialized ajax, not optimal performance
-    $.getJSON('/yelp-keys', function (auth) {
-      that.getAndRenderYelpPlaces(auth, location.coords);
-    });
-  }, function () {
-    // TODO: show a nicer error message/page
-    alert('could not get current location');
+  this.setupUI();
+
+  navigator.geolocation.getCurrentPosition(
+    _.bind(this.onGeolocationSuccess, this),
+    _.bind(this.onGeolocationError, this));
+};
+
+
+IndexPage.prototype.onGeolocationSuccess = function (location) {
+  if (this.foursquare.getUseFoursquare()) {
+    this.foursquare.getPlaces(location.coords, _.bind(this.onSuccessfullyGetFoursquareVenues, this));
+  }
+  if (this.yelp.getUseYelp()) {
+    $.getJSON('/yelp-keys', _.bind(function (auth) {
+      this.yelp.getPlaces(auth, location.coords, _.bind(this.onSuccessfullyGetYelpBusinesses, this));
+    }, this));
+  }
+};
+
+
+IndexPage.prototype.onGeolocationError = function () {
+  // coords come from http://geocoder.ca/?locate=market+st+and+van+ness+st%2C+san+francisco%2C+ca%2C+usa&geoit=GeoCode+it%21
+  this.onGeolocationSuccess({
+    coords: {
+      latitude: 37.775147,
+      longitude: -122.419256
+    }
+  });
+
+  alert('This app works much better when you allow it to use your current location. ' +
+    'Until then, you will be shown places near the center of San Francisco, instead ' +
+    'of places near you.');
+};
+
+
+/**
+ * callback for successful ajax request for yelp businesses
+ */
+IndexPage.prototype.onSuccessfullyGetYelpBusinesses = function (businesses, currentLocation) {
+  this.log('got yelp businesses:', businesses);
+
+  $(".yelp-businesses .spinner").remove();
+
+  _.each(businesses, function (business) {
+    var place = Place.forYelpBusiness(business);
+    var templateData = place.getTemplateData(currentLocation);
+    $(".yelp-businesses .businesses").append(ich.tpl_business(templateData))
   });
 };
 
 
-// TODO: make replaceAll(string, {key, value}) method
-// TODO: sort by distance?
-IndexPage.prototype.onSuccessfullyGetFoursquareVenues = function(venues, currentCoords, categoryId) {
-  $(".spinner, .spacer").remove();
+IndexPage.prototype.parseHash = function () {
+  this.log('parsing hash:', window.location.hash);
+
+  var matches = /(\w+)=(\w+)/.exec(window.location.hash.substring(1));
+  if (!matches) {
+    return null;
+  }
+  var ret = {};
+  ret[matches[1]] = matches[2];
+  return ret;
+};
+
+
+IndexPage.prototype.processHash = function () {
+  this.log('processing hash');
+
+  var parsedHash = this.parseHash();
+  if (parsedHash) {
+    if ('error' in parsedHash) {
+      // TODO: chop off the error hash -> redirect to window.location.pathname
+      alert('There was an error: ' + parsedHash['error']);
+    }
+    else if ('access_token' in parsedHash) {
+      var accessToken = parsedHash['access_token'];
+      this.foursquare.setFoursquareToken(accessToken);
+      this.foursquare.setUseFoursquare(true);
+    }
+    else {
+      console.error('Unknown hash:', parsedHash)
+    }
+  }
+};
+
+
+IndexPage.prototype.onSuccessfullyGetFoursquareVenues = function (venues, currentCoords) {
+  this.log('got foursquare venues:', venues);
+
+  $(".foursquare-businesses .spinner").remove();
 
   _.each(venues, function (venue) {
-    var categoryIds = _(venue.categories).pluck('id');
-    if (!_(categoryIds).include(categoryId)) {
-      //console.warn('ignoring due to categories:', _(venue.categories).pluck('name'));
-      return;
-    }
     var place = Place.forFoursquareVenue(venue);
-    console.info(venue.name, venue);
     var templateData = place.getTemplateData(currentCoords);
-    $(".businesses").append(ich.tpl_business(templateData))
+    $(".foursquare-businesses .businesses").append(ich.tpl_business(templateData))
   });
 };
 
 
-IndexPage.prototype.getAndRenderFoursquarePlaces = function (currentCoords) {
-  var categoryId = '4bf58dd8d48988d1cb941735'; // TODO: is this stable?
-  var latLng = currentCoords.latitude + ',' + currentCoords.longitude;
-  var urlTemplate = 'https://api.foursquare.com/v2/venues/search?categoryId={categoryId}&ll={latLng}&oauth_token={oauthToken}&v=20120509';
-  var url = urlTemplate
-    .replace('{oauthToken}', this.settingsAccess.getFoursquareToken())
-    .replace('{latLng}', latLng)
-    .replace('{categoryId}', categoryId);
+// TODO: more elegant approach
+IndexPage.prototype.setupUI = function () {
+  this.log('setting up UI');
+
   var that = this;
 
-  // TODO: error handling
-  $.getJSON(url, {}, function (data) {
-    var venues = data.response.venues;
-    that.onSuccessfullyGetFoursquareVenues(venues, currentCoords, categoryId);
+  var useYelp = this.yelp.getUseYelp();
+  if (useYelp) {
+    $('.yelp-businesses').show();
+  }
+  $('.js-yelp-checkbox').attr('checked', useYelp);
+  $('.js-yelp-checkbox').click(function () {
+    that.yelp.setUseYelp($(this).is(':checked'));
   });
+
+  var useFoursquare = this.foursquare.getUseFoursquare();
+  if (useFoursquare) {
+    $('.foursquare-businesses').show();
+  }
+  $('.js-foursquare-checkbox').attr('checked', useFoursquare);
+  $('.js-foursquare-checkbox').click(function () {
+    if (!that.foursquare.isAuthedWithFoursquare() && $(this).is(':checked')) {
+      if (window.confirm('You must login with your Foursquare account to use their data. OK?')) {
+        that.foursquare.doAuth();
+      }
+      return false;
+    }
+    that.foursquare.setUseFoursquare($(this).is(':checked'));
+  });
+
+  if (!useYelp && !useFoursquare) {
+    $('.datasources').yellowFade();
+  }
 };
 
 
-// TODO: fix this, do we need to wrap it in a setTimeout?
+// TODO: does this work?
 // hide the url bar
-window.scrollTo(0, 1);
+setTimeout(function () {
+  window.scrollTo(0, 1);
+}, 0);
+
 
 // load scripts then start the app
 $LAB
@@ -145,8 +193,13 @@ $LAB
   .script('js/external/ICanHaz.js')
   .script('js/external/underscore.js')
   .script('js/external/jstorage.js')
+  .script('js/external/jquery.color.js')
+  .script('js/util.js')
   .script('js/place.js')
-  .script('js/settings-access.js')
+  .script('js/yelp.js')
+  .script('js/foursquare.js')
+  .wait()
+  .script('js/jquery-extensions.js')
   .wait(function () {
     $(function () { // wait til dom loaded so ICanHaz can do its thing
       var indexPage = new IndexPage();

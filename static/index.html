@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html>
-<!--
-TODO:
-- encoding -> utf8
-- favicon
-
--->
 <head>
   <title>Where's The Food At?</title>
 
@@ -16,7 +10,7 @@ TODO:
   <meta name="keywords" content="street,food,streetfood,truck,foodtruck">
 
   <link rel="stylesheet" href="css/reset.css"/>
-  <link rel="stylesheet/less" type="text/css" href="css/app.less"/>
+  <link rel="stylesheet/less" type="text/css" href="css/base.less"/>
   <link rel="stylesheet/less" type="text/css" href="css/index.less"/>
   <script type="text/javascript" src="js/external/less-1.3.0.min.js"></script>
 
@@ -46,7 +40,9 @@ TODO:
             <li>Categories: {{pretty_categories}}</li>
           {{/pretty_categories}}
           <li><a href="{{directions_url}}">Directions</a></li>
-          <li><a href="{{external_url}}">{{external_url_text}}</a></li>
+          {{#external_url}}
+            <li><a href="{{external_url}}">{{external_url_text}}</a></li>
+          {{/external_url}}
           {{#twitter_url}}
             <li><a href="http://twitter.com/{{twitter_url}}">Twitter: {{twitter_url}}</a></li>
           {{/twitter_url}}
@@ -74,20 +70,43 @@ TODO:
 <div class="content">
   <header>
     <h1>Where's The Food At?</h1>
-    <h4>Helping you find street food nearby - an experiment with the Yelp API</h4>
+    <h4>Helping you find street food nearby</h4>
   </header>
 
-  <img src="img/ajax-loader.gif" class="spinner">
+  <div class="datasources">
+    Using data from:
+    <label>
+      <input type="checkbox" class="js-yelp-checkbox">
+      Yelp
+    </label>
+    <label>
+      <input type="checkbox" class="js-foursquare-checkbox">
+      Foursquare
+    </label>
+  </div>
 
-  <div class="businesses">
+  <div class="yelp-businesses" style="display: none">
+    <h2 class="results-header">Results from Yelp</h2>
+
+    <div class="businesses">
+      <img src="img/ajax-loader.gif" class="spinner">
+    </div>
+  </div>
+  <div class="foursquare-businesses" style="display: none">
+    <h2 class="results-header">Results from Foursquare</h2>
+
+    <div class="businesses">
+      <img src="img/ajax-loader.gif" class="spinner">
+    </div>
   </div>
 
   <footer>
     <p>Created by <a href="http://lowellkirsh.com">Lowell Kirsh</a></p>
+    <!--http://www.yelp.com/developers/getting_started/display_requirements-->
     <img src="img/Powered_By_Yelp_Black.png">
+    <!--https://foursquare.com/about/logos-->
+    <img src="img/poweredByFoursquare_cropped.png">
   </footer>
-
-  <div class="spacer"></div>
 </div>
 <script type="text/javascript" src="js/external/LAB.min.js"></script>
 <script src="js/index.js"></script>
