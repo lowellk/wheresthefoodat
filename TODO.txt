@@ -14,3 +14,4 @@
 - gzip
 - auto refresh if change settings or ajax them in right away
 - retina graphics
+- easy way to jump to 2nd list of places
