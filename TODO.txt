@@ -1,18 +1,8 @@
 - staging server
-- backbone?
+- use backbone.js
 - favicon
 - mobile web app capable
 - newrelic: https://newrelic.com/docs/python/python-agent-and-gunicorn
-- fork me on github
-- REAMDE
-  - instructions for setup
-  - info about limitations
-    - build step
-    - zepto
-  - this app is not production ready
-- what if no local storage?
-- gzip
 - auto refresh if change settings or ajax them in right away
-- retina graphics
 - easy way to jump to 2nd list of places
-- far future expires headers for all/most pages
+- investigate caching of index.html

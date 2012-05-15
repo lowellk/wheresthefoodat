@@ -1,3 +1,7 @@
+## Summary
+
+This is the code that runs http://wheresthefood.at. It is not quite ready for primetime.
+
 ## Setup
 
 You need to register a developer account at https://foursquare.com/oauth/.
@@ -40,3 +44,19 @@ Configure all the environment variables mentioned above using
 https://devcenter.heroku.com/articles/config-vars
 
 Deploy and test.
+
+## Limitations
+
+This app is not ready for production. Some limitations:
+
+- performance could easily be improved:
+  - build / concat js and css files
+  - use gzip
+  - proxy yelp requests instead of using jsonp
+  - use zepto instead of jquery
+- get working on IE8
+- work in the absence of localstorage
+- use retina graphics on iphone / ipad
+- better caching
+  - far future expires headers for all/most pages
+  - smarter cache busting - currently cache is busted for all files on every deploy
