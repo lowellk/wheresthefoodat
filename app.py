@@ -15,6 +15,12 @@ def hello():
     return flask.redirect('index.html')
 
 
+# hack, get rid!
+@app.route('/env-foobar-baz')
+def env():
+    return jsonify(keys=os.environ.keys())
+
+
 @app.route('/yelp-keys')
 def yelp_keys():
     keys = app.config['YELP_KEYS']
