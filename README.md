@@ -2,7 +2,8 @@
 
 You need to register a developer account at https://foursquare.com/oauth/.
 Then create an app and take note of the clientId. You need to pass this to
-your app as an environment variable.
+your app as an environment variable. To create the app, you will need to 'register a new consumer'.
+For both its website and callback url, put 'http://localhost:5000' (this is for the dev setup).
 
 You also need to create a developer account at http://www.yelp.com/developers/getting_started/api_access.
 You must then generate API keys and take note of the following keys and values:
@@ -18,6 +19,9 @@ line for each key/value pair and each line should be of the form:
 
 ### Developement
 
+Install libraries via 'pip install -r requirements.txt'. You probably want
+to use virtualenv for this app (Google it if you don't know how).
+
 Run the app via 'foreman start -f Procfile.dev'.
 
 Make sure your app works by going to a web browser and visit http://localhost:5000.
@@ -30,4 +34,9 @@ Make sure your app works by going to a web browser and visit http://localhost:50
 
 ### Heroku Production Instance
 
-Create a heroku app. Configure all the environment variables mentioned above. Deploy and test.
+Create a heroku app.
+
+Configure all the environment variables mentioned above using
+https://devcenter.heroku.com/articles/config-vars
+
+Deploy and test.

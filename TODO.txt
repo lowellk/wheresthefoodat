@@ -1,6 +1,4 @@
 - staging server
-- humans.txt
-- intro page
 - backbone?
 - favicon
 - mobile web app capable
@@ -8,16 +6,11 @@
 - fork me on github
 - REAMDE
   - instructions for setup
-    - e.g. deploying to heroku: https://devcenter.heroku.com/articles/config-vars
   - info about limitations
+    - build step
+    - zepto
   - this app is not production ready
-- what if say no to foursquare auth?
 - what if no local storage?
-- add cache busting suffix to scripts
 - gzip
 - auto refresh if change settings or ajax them in right away
-- build step
-- zepto
 - retina graphics
-- get rid of 'that'
-- minified all scripts (just in prod?)
